@@ -93,15 +93,24 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
           child: Column(
             mainAxisAlignment: .center,
             children: [
+              const Spacer(),
+              Row(children: [
+                TextoCentrado('servidor'),
+                Expanded(child:
+                Switch(value: false, onChanged: (bool valor) {})
+                )
+              ]),
+              Expanded(child:
               Row(
-                mainAxisAlignment: .start,
                 children: [
                   TextoCentrado('probando'),
                   TextoCentrado('1'),
                   TextoCentrado('2'),
                   TextoCentrado('3'),
                   ]
-              ),
+              )),
+              TextoCentrado('abajo'),
+              const Spacer(),
             ],
           )
         ),
@@ -142,6 +151,18 @@ class TextoCentrado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Replace Container with widgets.
-    return Expanded(child: Text(texto, textAlign: TextAlign.center,));
+    return Expanded(child: Text(texto, textAlign: TextAlign.center, ));
+  }
+}
+
+class ToggleConTexto extends StatelessWidget {
+  const ToggleConTexto(this.texto, {super.key});
+
+  final String texto;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: Replace Container with widgets.
+    return Expanded(child: Text(texto, textAlign: TextAlign.center, ));
   }
 }
