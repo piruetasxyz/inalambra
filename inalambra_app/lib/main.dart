@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
-// import 'dart:async';
+// bibliotecas
+
+import 'piruetas.dart';
 // import 'dart:io';
+// import 'dart:async';
+// import 'package:csv/csv.dart';
+import 'package:flutter/material.dart';
 // import 'package:mqtt_client/mqtt_client.dart';
 
 void main() {
@@ -19,10 +23,7 @@ class MiApp extends StatelessWidget {
         colorScheme: .fromSeed(seedColor: Colors.deepOrange),
         fontFamily: 'Roboto',
       ),
-      home: PaginaInicio(
-          titulo: 'inalambra',
-          v: '0.0.1',
-          agno: 2026),
+      home: PaginaInicio(titulo: 'inalambra', v: '0.0.1', agno: 2026),
     );
   }
 }
@@ -60,16 +61,21 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
   String _idUsuario = '';
 
   static const List<Map<String, String>> _mensajes = [
-    {'etiqueta': 'encender led',       'componente': 'led',     'icono': 'light'},
-    {'etiqueta': 'apagar led',         'componente': 'led',     'icono': 'light_off'},
-    {'etiqueta': 'parpadear led',      'componente': 'led',     'icono': 'flare'},
-    {'etiqueta': 'bip corto',          'componente': 'buzzer',  'icono': 'volume_up'},
-    {'etiqueta': 'bip largo',          'componente': 'buzzer',  'icono': 'volume_up'},
-    {'etiqueta': 'mensaje en pantalla','componente': 'pantalla','icono': 'monitor'},
+    {'etiqueta': 'encender led', 'componente': 'led', 'icono': 'light'},
+    {'etiqueta': 'apagar led', 'componente': 'led', 'icono': 'light_off'},
+    {'etiqueta': 'parpadear led', 'componente': 'led', 'icono': 'flare'},
+    {'etiqueta': 'bip corto', 'componente': 'buzzer', 'icono': 'volume_up'},
+    {'etiqueta': 'bip largo', 'componente': 'buzzer', 'icono': 'volume_up'},
+    {
+      'etiqueta': 'mensaje en pantalla',
+      'componente': 'pantalla',
+      'icono': 'monitor',
+    },
   ];
   String? _mensajeSeleccionado;
   String? _ultimoEnvio;
-  final TextEditingController _mensajeManualController = TextEditingController();
+  final TextEditingController _mensajeManualController =
+      TextEditingController();
 
   final List<Map<String, String>> _mensajesRecibidos = [];
   String _filtroRecibidos = 'todos';
@@ -182,9 +188,7 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
                         conectado = valor;
                       });
                     },
-              title: Text(
-                conectado ? 'conectado' : 'desconectado',
-              ),
+              title: Text(conectado ? 'conectado' : 'desconectado'),
               subtitle: servidorSeleccionado != null
                   ? Text(servidores[servidorSeleccionado!])
                   : const Text('selecciona un servidor'),
@@ -290,7 +294,9 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
-                  onPressed: (_mensajeManualController.text.trim().isEmpty || !conectado)
+                  onPressed:
+                      (_mensajeManualController.text.trim().isEmpty ||
+                          !conectado)
                       ? null
                       : () {
                           final servidor = servidorSeleccionado != null
@@ -324,8 +330,10 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
                       padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
-                          Icon(Icons.check_circle,
-                              color: Theme.of(context).colorScheme.primary),
+                          Icon(
+                            Icons.check_circle,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -388,16 +396,18 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
                   final filtrados = _filtroRecibidos == 'todos'
                       ? _mensajesRecibidos
                       : _mensajesRecibidos
-                          .where((m) => m['componente'] == _filtroRecibidos)
-                          .toList();
+                            .where((m) => m['componente'] == _filtroRecibidos)
+                            .toList();
                   if (filtrados.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: .center,
                         children: [
-                          Icon(Icons.inbox,
-                              size: 48,
-                              color: Theme.of(context).colorScheme.outline),
+                          Icon(
+                            Icons.inbox,
+                            size: 48,
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             conectado
@@ -417,14 +427,16 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
                     itemBuilder: (context, i) {
                       final m = filtrados[filtrados.length - 1 - i];
                       final icono = switch (m['componente']) {
-                        'led'     => Icons.light,
-                        'buzzer'  => Icons.volume_up,
-                        'pantalla'=> Icons.monitor,
-                        _         => Icons.message,
+                        'led' => Icons.light,
+                        'buzzer' => Icons.volume_up,
+                        'pantalla' => Icons.monitor,
+                        _ => Icons.message,
                       };
                       return ListTile(
-                        leading: Icon(icono,
-                            color: Theme.of(context).colorScheme.primary),
+                        leading: Icon(
+                          icono,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                         title: Text(m['contenido']!),
                         subtitle: Text(m['componente']!),
                         trailing: Text(
@@ -464,33 +476,5 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
         ),
       ][indiceActualPagina],
     );
-  }
-}
-
-///////////////////////
-// clases para piruetas
-///////////////////////
-
-class TextoCentrado extends StatelessWidget {
-  const TextoCentrado(this.texto, {super.key});
-
-  final String texto;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Replace Container with widgets.
-    return Expanded(child: Text(texto, textAlign: TextAlign.center, ));
-  }
-}
-
-class ToggleConTexto extends StatelessWidget {
-  const ToggleConTexto(this.texto, {super.key});
-
-  final String texto;
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Replace Container with widgets.
-    return Expanded(child: Text(texto, textAlign: TextAlign.center, ));
   }
 }
