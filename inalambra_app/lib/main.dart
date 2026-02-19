@@ -89,7 +89,22 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
           ),
         ),
         // servidor
-        Center(),
+        Center(
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              Row(
+                mainAxisAlignment: .start,
+                children: [
+                  TextoCentrado('probando'),
+                  TextoCentrado('1'),
+                  TextoCentrado('2'),
+                  TextoCentrado('3'),
+                  ]
+              ),
+            ],
+          )
+        ),
 
         // info
         Center(
@@ -97,28 +112,36 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
             mainAxisAlignment: .center,
             children: [
               const Spacer(),
-              const Text('inalambra'),
-              const Spacer(),
-              Text('v${widget.v}'),
-              const Spacer(),
-              Text(widget.agno.toString()),
-              const Spacer(),
-              const Text('app desarrollada por piruetas'),
-              const Spacer(),
-              const Text('en santiago de chile'),
-              const Spacer(),
-              const Text('iniciada para el curso'),
-              const Spacer(),
-              const Text('dis9079 interacciones inalámbricas'),
-              const Spacer(),
-              const Text('dictado en diseño udp 2026'),
-              const Spacer(),
-              const Text('por aarón montoya y mateo arce'),
+              TextoCentrado('inalambra'),
+              TextoCentrado('v${widget.v}'),
+              TextoCentrado(widget.agno.toString()),
+              TextoCentrado('app desarrollada por piruetas'),
+              TextoCentrado('en santiago de chile'),
+              TextoCentrado('iniciada para el curso'),
+              TextoCentrado('dis9079 interacciones inalámbricas'),
+              TextoCentrado('dictado en diseño udp 2026'),
+              TextoCentrado('por aarón montoya y mateo arce'),
               const Spacer(),
             ],
           ),
         ),
       ][indiceActualPagina],
     );
+  }
+}
+
+///////////////////////
+// clases para piruetas
+///////////////////////
+
+class TextoCentrado extends StatelessWidget {
+  const TextoCentrado(this.texto, {super.key});
+
+  final String texto;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: Replace Container with widgets.
+    return Expanded(child: Text(texto, textAlign: TextAlign.center,));
   }
 }
