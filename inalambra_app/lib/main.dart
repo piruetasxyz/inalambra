@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:mqtt_client/mqtt_client.dart';
 
 void main() {
   runApp(const MiApp());
@@ -46,6 +43,14 @@ class PaginaInicio extends StatefulWidget {
 class _EstadoPaginaInicio extends State<PaginaInicio> {
   int indiceActualPagina = 0;
 
+  final List<String> servidores = [
+    'broker.hivemq.com',
+    'test.mosquitto.org',
+    'mqtt.eclipseprojects.io',
+  ];
+  int? servidorSeleccionado;
+  bool conectado = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,30 +94,57 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
           ),
         ),
         // servidor
-        Center(
-          child: Column(
-            mainAxisAlignment: .center,
-            children: [
-              const Spacer(),
-              Row(children: [
-                TextoCentrado('servidor'),
-                Expanded(child:
-                Switch(value: false, onChanged: (bool valor) {})
-                )
-              ]),
-              Expanded(child:
-              Row(
-                children: [
-                  TextoCentrado('probando'),
-                  TextoCentrado('1'),
-                  TextoCentrado('2'),
-                  TextoCentrado('3'),
-                  ]
-              )),
-              TextoCentrado('abajo'),
-              const Spacer(),
-            ],
-          )
+        Column(
+          children: [
+            SwitchListTile(
+              value: conectado,
+              onChanged: servidorSeleccionado == null
+                  ? null
+                  : (bool valor) {
+                      setState(() {
+                        conectado = valor;
+                      });
+                    },
+              title: Text(
+                conectado ? 'conectado' : 'desconectado',
+              ),
+              subtitle: servidorSeleccionado != null
+                  ? Text(servidores[servidorSeleccionado!])
+                  : const Text('selecciona un servidor'),
+              secondary: Icon(
+                conectado ? Icons.wifi : Icons.wifi_off,
+                color: conectado
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.outline,
+              ),
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: servidores.length,
+                itemBuilder: (context, i) {
+                  final seleccionado = servidorSeleccionado == i;
+                  return ListTile(
+                    leading: Icon(
+                      Icons.computer,
+                      color: seleccionado
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                    ),
+                    title: Text(servidores[i]),
+                    selected: seleccionado,
+                    selectedColor: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      setState(() {
+                        servidorSeleccionado = i;
+                        conectado = false;
+                      });
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
 
         // info
