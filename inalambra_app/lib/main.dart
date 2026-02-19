@@ -19,16 +19,25 @@ class MiApp extends StatelessWidget {
         colorScheme: .fromSeed(seedColor: Colors.deepOrange),
         fontFamily: 'Roboto',
       ),
-      home: PaginaInicio(titulo: 'inalambra'),
+      home: PaginaInicio(
+          titulo: 'inalambra',
+          v: '0.0.1',
+          agno: 2026),
     );
   }
 }
 
 class PaginaInicio extends StatefulWidget {
-  const PaginaInicio({super.key, required this.titulo});
+  const PaginaInicio({
+    super.key,
+    required this.titulo,
+    required this.v,
+    required this.agno,
+  });
 
   final String titulo;
-  // final int agno = 2026;
+  final String v;
+  final int agno;
 
   @override
   State<PaginaInicio> createState() => _EstadoPaginaInicio();
@@ -53,23 +62,59 @@ class _EstadoPaginaInicio extends State<PaginaInicio> {
         },
         destinations: const <Widget>[
           NavigationDestination(icon: Icon(Icons.home), label: 'inicio'),
+          NavigationDestination(icon: Icon(Icons.computer), label: 'servidor'),
           NavigationDestination(icon: Icon(Icons.info), label: 'info'),
         ],
       ),
       body: <Widget>[
-        Center(
-          child: Column(
-            mainAxisAlignment: .center,
-            children: [const Text('hola!')],
-          ),
-        ),
+        // center
         Center(
           child: Column(
             mainAxisAlignment: .center,
             children: [
+              const Spacer(),
+              const Text('hola!'),
+              const Spacer(),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: 
+              const Text("botón")),
+              const Spacer(),
+              ElevatedButton(
+                  onPressed: () {},
+                  child:
+                  const Text("otro botón")),
+              const Spacer(),
+            ],
+          ),
+        ),
+        // servidor
+        Center(),
+
+        // info
+        Center(
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              const Spacer(),
+              const Text('inalambra'),
+              const Spacer(),
+              Text('v${widget.v}'),
+              const Spacer(),
+              Text(widget.agno.toString()),
+              const Spacer(),
               const Text('app desarrollada por piruetas'),
+              const Spacer(),
               const Text('en santiago de chile'),
-              const Text('febrero 2026'),
+              const Spacer(),
+              const Text('iniciada para el curso'),
+              const Spacer(),
+              const Text('dis9079 interacciones inalámbricas'),
+              const Spacer(),
+              const Text('dictado en diseño udp 2026'),
+              const Spacer(),
+              const Text('por aarón montoya y mateo arce'),
+              const Spacer(),
             ],
           ),
         ),
